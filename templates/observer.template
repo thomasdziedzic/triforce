@@ -1,0 +1,19 @@
+trigger ${mainObject} on ${mainObject} (after update) {
+    if(Trigger.isAfter && Trigger.isUpdate) {
+        Set<Id> triggerObjectIds = new Set<Id>();
+        for(${mainObject} triggerObject : Trigger.new) {
+            ${mainObject} oldTriggerObject = Trigger.oldMap.get(triggerObject.Id);
+            if(${fieldChangeConditional}) {
+                triggerObjectIds.add(triggerObject.Id);
+            }
+        }
+
+        List<${assignmentObject}> outdatedObjects = [
+            SELECT Id
+            FROM ${assignmentObject}
+            WHERE ${mainObjectFieldOnTriggerObject} IN :triggerObjectIds
+        ];
+
+        update outdatedObjects;
+    }
+}

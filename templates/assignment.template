@@ -1,0 +1,21 @@
+trigger ${mainObject} on ${mainObject} (after insert, before update) {
+    if(Trigger.isAfter && Trigger.isInsert) {
+        update Trigger.new.deepClone(true);
+    }
+
+    if(Trigger.isBefore && Trigger.isUpdate) {
+        List<${mainObject}> mainObjectList = [
+            SELECT Id${queryFieldString}
+            FROM ${mainObject}
+            WHERE Id IN :Trigger.newMap.keySet()
+        ];
+        Map<Id, ${mainObject}> mainObjectMap = new Map<Id, ${mainObject}>(mainObjectList);
+
+        for(${mainObject} mainObject : Trigger.new) {
+            ${mainObject} queriedObject = mainObjectMap.get(mainObject.Id);
+            if(${conditionString}) {
+                ${assignmentString}
+            }
+        }
+    }
+}

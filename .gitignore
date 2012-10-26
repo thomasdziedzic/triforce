@@ -1,6 +1,10 @@
+# default generated values for haskell
 dist
 cabal-dev
 *.o
 *.hi
 *.chi
 *.chs.h
+
+# my own additions
+generated
